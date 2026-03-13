@@ -52,8 +52,8 @@ public abstract class Prenda {
     }
 
     public void setEstado(EstadoPrenda estado) {
-        this.estado = estado;
         this.estadoActual = EstadoPrendaFactory.crear(estado);
+        this.estado = estado;
     }
 
     public void alquilar() {

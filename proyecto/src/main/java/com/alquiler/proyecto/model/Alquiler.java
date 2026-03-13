@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.alquiler.proyecto.model.prendas.Prenda;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -36,4 +37,7 @@ public class Alquiler {
     private LocalDate fechaAlquiler;
 
     private Integer numeroDias;
+    @Column(nullable = true)
+    private LocalDate fechaEntrega;
+    private boolean requierePrioridadLavado;
 }

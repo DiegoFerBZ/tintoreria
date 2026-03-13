@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.alquiler.proyecto.dtos.response.global.ApiResponse;
+import com.alquiler.proyecto.exceptions.StatePrendaException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,6 +16,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handleNotFound(NotFoundException ex) {
         ApiResponse<Object> response = new ApiResponse<>(null, LocalDateTime.now(), 404, ex.getMessage());
         return ResponseEntity.status(404)
+                .header("Content-Type", "application/json")
+                .body(response);
+    }
+
+    @ExceptionHandler(StatePrendaException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidadState(StatePrendaException ex) {
+        ApiResponse<Object> response = new ApiResponse<>(null, LocalDateTime.now(), 409, ex.getMessage());
+        return ResponseEntity.status(409)
                 .header("Content-Type", "application/json")
                 .body(response);
     }

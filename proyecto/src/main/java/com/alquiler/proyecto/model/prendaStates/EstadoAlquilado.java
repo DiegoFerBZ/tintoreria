@@ -1,5 +1,6 @@
 package com.alquiler.proyecto.model.prendaStates;
 
+import com.alquiler.proyecto.exceptions.StatePrendaException;
 import com.alquiler.proyecto.model.interfaces.IEstadoPrenda;
 import com.alquiler.proyecto.model.prendas.Prenda;
 
@@ -7,7 +8,7 @@ public class EstadoAlquilado implements IEstadoPrenda {
 
     @Override
     public void alquilar(Prenda prenda) {
-        throw new IllegalStateException("La prenda ya está alquilada");
+        throw new StatePrendaException("La prenda ya está alquilada");
     }
 
     @Override
@@ -17,12 +18,12 @@ public class EstadoAlquilado implements IEstadoPrenda {
 
     @Override
     public void enviarALavado(Prenda prenda) {
-        throw new IllegalStateException("Debe entregarse primero");
+        throw new StatePrendaException("Debe entregarse primero");
     }
 
     @Override
     public void finalizarLavado(Prenda prenda) {
-        throw new IllegalStateException("La prenda no está en lavado");
+        throw new StatePrendaException("La prenda no está en lavado");
     }
 
     @Override
