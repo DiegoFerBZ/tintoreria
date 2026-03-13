@@ -9,5 +9,6 @@ public interface IPrendaService {
     Prenda crear(CrearPrendaDTO dto);
     List<Prenda> obtenerTodas();
     Prenda obtenerPorId(int id);
+    Prenda actualizarInfoPrenda(Prenda prenda);
     
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.alquiler.proyecto.dtos.request.CrearPrendaDTO;
+import com.alquiler.proyecto.exceptions.PrendaNotFoundException;
 import com.alquiler.proyecto.model.prendas.Prenda;
 import com.alquiler.proyecto.model.prendas.factory.PrendaFactory;
 import com.alquiler.proyecto.repositories.interfaces.IPrendaRepository;
@@ -33,7 +34,12 @@ public class PrendaService implements IPrendaService{
     @Override
     public Prenda obtenerPorId(int id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prenda no encontrada con ID: " + id));
+                .orElseThrow(() -> new PrendaNotFoundException(id));
+    }
+
+    @Override
+    public Prenda actualizarInfoPrenda(Prenda prenda) {
+        return repository.save(prenda);
     }
 
 }

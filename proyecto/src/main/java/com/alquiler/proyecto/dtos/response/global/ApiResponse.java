@@ -1,4 +1,4 @@
-package com.alquiler.proyecto.dtos.response;
+package com.alquiler.proyecto.dtos.response.global;
 
 import java.time.LocalDateTime;
 

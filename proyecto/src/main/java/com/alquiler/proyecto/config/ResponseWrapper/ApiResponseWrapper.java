@@ -11,7 +11,7 @@ import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.alquiler.proyecto.dtos.response.ApiResponse;
+import com.alquiler.proyecto.dtos.response.global.ApiResponse;
 
 @ControllerAdvice
 public class ApiResponseWrapper implements ResponseBodyAdvice<Object> {

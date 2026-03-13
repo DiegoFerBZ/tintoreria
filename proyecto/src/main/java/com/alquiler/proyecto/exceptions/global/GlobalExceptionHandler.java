@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.alquiler.proyecto.dtos.response.ApiResponse;
+import com.alquiler.proyecto.dtos.response.global.ApiResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

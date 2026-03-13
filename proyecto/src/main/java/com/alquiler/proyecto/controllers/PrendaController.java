@@ -36,4 +36,5 @@ public class PrendaController {
         List<Prenda> prendas = servicio.obtenerTodas();
         return ResponseEntity.ok(prendas);
     }
+    
 }
