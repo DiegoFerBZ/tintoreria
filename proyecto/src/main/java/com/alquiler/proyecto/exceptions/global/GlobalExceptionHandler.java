@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception ex) {
         ApiResponse<Object> response = new ApiResponse<>(null, LocalDateTime.now(), 500,
                 "El sistema no puede responder la solicitud en el momento. Contacta con soporte");
+        System.out.println(ex.getMessage());
         return ResponseEntity.status(500)
                 .header("Content-Type", "application/json")
                 .body(response);
