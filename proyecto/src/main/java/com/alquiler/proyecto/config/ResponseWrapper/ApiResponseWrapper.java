@@ -18,7 +18,14 @@ public class ApiResponseWrapper implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        // Devuelve true para todos los endpoints REST
+        // No envolver respuestas de Swagger/OpenAPI
+        String packageName = returnType.getContainingClass().getPackageName();
+        if (packageName.startsWith("org.springdoc") || packageName.startsWith("springfox") ||
+                packageName.startsWith("io.swagger")) {
+            return false;
+        }
+
+        // Solo envolver si es de tus controladores
         return true;
     }
 
