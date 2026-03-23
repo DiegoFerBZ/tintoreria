@@ -1,7 +1,12 @@
 package com.alquiler.proyecto.model.prendas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alquiler.proyecto.model.interfaces.IEstadoPrenda;
-import com.alquiler.proyecto.model.prendaStates.EstadoDisponible;
+import com.alquiler.proyecto.model.observer.AuditoriaObserver;
+import com.alquiler.proyecto.model.observer.LavadoQueueObserver;
+import com.alquiler.proyecto.model.observer.interfaces.PrendaEstadoObserver;
 import com.alquiler.proyecto.model.prendaStates.EstadoPrenda;
 import com.alquiler.proyecto.model.prendaStates.EstadoPrendaFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +23,9 @@ import jakarta.persistence.Transient;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.PostLoad;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -42,9 +49,33 @@ public abstract class Prenda {
     @JsonIgnore
     private IEstadoPrenda estadoActual;
 
+    @Transient
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<PrendaEstadoObserver> observers = new ArrayList<>();
+
     public Prenda(String referencia, double valorAlquiler) {
         this.referencia = referencia;
         this.valorAlquiler = valorAlquiler;
+        initObservers();
+    }
+
+    public void addObserver(PrendaEstadoObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(PrendaEstadoObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    private void initObservers() {
+        this.observers.add(new AuditoriaObserver());
+        this.observers.add(new LavadoQueueObserver());
+    }
+
+    private void notifyObservers(EstadoPrenda estadoAnterior, EstadoPrenda estadoNuevo) {
+        observers.forEach(obs -> obs.onEstadoCambiado(this, estadoAnterior, estadoNuevo));
     }
 
     public void inicializarEstado() {
@@ -52,8 +83,12 @@ public abstract class Prenda {
     }
 
     public void setEstado(EstadoPrenda estado) {
+        EstadoPrenda estadoAnterior = this.estado;
         this.estadoActual = EstadoPrendaFactory.crear(estado);
         this.estado = estado;
+        if (estadoAnterior != null) {
+            notifyObservers(estadoAnterior, estado);
+        }
     }
 
     public void alquilar() {
@@ -75,5 +110,6 @@ public abstract class Prenda {
     @PostLoad
     public void postLoad() {
         this.inicializarEstado();
+        initObservers();
     }
 }
